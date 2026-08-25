@@ -2,9 +2,14 @@ import logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
-logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+# إعداد السجلات (Logs)
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", 
+    level=logging.INFO
+)
 logger = logging.getLogger(__name__)
 
+# توكن البوت الخاص بك
 TOKEN = "8830057370:AAHVtGLv88oklq6ePuFyJCMtSH7_2gyG1yc"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -27,14 +32,17 @@ async def ping(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("ابشرك يا سيمو، «مفهي» شغال وسريع بالسحابة 🚀!")
 
 def main() -> None:
+    # بناء التطبيق بالطريقة المستقرة
     application = Application.builder().token(TOKEN).build()
-
+    
+    # إضافة الأوامر
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("ping", ping))
-
+    
     print("Bot 'Mofhi' is starting...")
-    application.run_polling()
+    # تشغيل البوت بطريقة البولينغ المباشرة
+    application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
     main()
